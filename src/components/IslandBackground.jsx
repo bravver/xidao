@@ -1,13 +1,32 @@
+import cloudyBeach from '../assets/2.4.素材收集/2.1背景图/阴天海滩背景.avif'
+import sunnyBeach from '../assets/2.4.素材收集/2.1背景图/阳光海滩背景.jpg'
+import freshOcean from '../assets/2.4.素材收集/2.1背景图/清爽海洋背景.avif'
+import sunsetBeach from '../assets/2.4.素材收集/2.1背景图/日落海滩背景.jpg'
+import sandForeground from '../assets/2.4.素材收集/2.1背景图/前景沙滩.avif'
+
+// 四个时期的视觉图
+import phasePeriod from '../assets/素材1，3，5/月经期视觉图GIF.gif'
+import phaseFollicular from '../assets/phase-visuals/phase-follicular.png'
+import phaseOvulation from '../assets/phase-visuals/phase-ovulation.png'
+import phaseLuteal from '../assets/phase-visuals/phase-luteal.png'
+
 export default function IslandBackground({ phase = 'follicular' }) {
-  // 各周期阶段的背景图片
-  const backgrounds = {
-    period: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=1920&q=80', // 雨天/阴天海边
-    follicular: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80', // 阳光海滩
-    ovulation: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1920&q=80', // 晴朗海洋
-    luteal: 'https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=1920&q=80', // 日落海边
+  const beachBackgrounds = {
+    period: cloudyBeach,
+    follicular: sunnyBeach,
+    ovulation: freshOcean,
+    luteal: sunsetBeach,
   }
 
-  const bgUrl = backgrounds[phase] || backgrounds.follicular
+  const phaseVisuals = {
+    period: phasePeriod,
+    follicular: phaseFollicular,
+    ovulation: phaseOvulation,
+    luteal: phaseLuteal,
+  }
+
+  const bgUrl = beachBackgrounds[phase] || beachBackgrounds.follicular
+  const visualUrl = phaseVisuals[phase] || phaseVisuals.follicular
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: -1, overflow: 'hidden' }}>
@@ -21,12 +40,28 @@ export default function IslandBackground({ phase = 'follicular' }) {
         filter: phase === 'period' ? 'brightness(0.7) saturate(0.8)' : 'brightness(0.9)',
       }} />
 
+      {/* 时期视觉图叠加层 — 经期用正常叠加避免 GIF 黑帧闪烁 */}
+      <img
+        src={visualUrl}
+        alt=""
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'center',
+          opacity: phase === 'period' ? 0.45 : 0.6,
+          mixBlendMode: phase === 'period' ? 'normal' : 'soft-light',
+        }}
+      />
+
       {/* 经期 - 雨天效果叠加 */}
       {phase === 'period' && (
         <div style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(180deg, rgba(100,116,139,0.5) 0%, rgba(71,85,105,0.4) 50%, rgba(51,65,85,0.5) 100%)',
+          background: 'linear-gradient(180deg, rgba(100,116,139,0.4) 0%, rgba(71,85,105,0.3) 50%, rgba(51,65,85,0.4) 100%)',
         }} />
       )}
 
@@ -36,8 +71,8 @@ export default function IslandBackground({ phase = 'follicular' }) {
           position: 'absolute',
           inset: 0,
           background: phase === 'luteal'
-            ? 'linear-gradient(180deg, rgba(255,107,107,0.3) 0%, rgba(255,142,83,0.2) 40%, rgba(255,160,122,0.2) 100%)'
-            : 'linear-gradient(180deg, rgba(135,206,235,0.3) 0%, rgba(255,255,255,0.2) 40%, rgba(176,224,230,0.3) 100%)',
+            ? 'linear-gradient(180deg, rgba(255,107,107,0.2) 0%, rgba(255,142,83,0.15) 40%, rgba(255,160,122,0.15) 100%)'
+            : 'linear-gradient(180deg, rgba(135,206,235,0.2) 0%, rgba(255,255,255,0.15) 40%, rgba(176,224,230,0.2) 100%)',
         }} />
       )}
 
@@ -58,14 +93,14 @@ export default function IslandBackground({ phase = 'follicular' }) {
         }} />
       )}
 
-      {/* 沙滩 */}
+      {/* 沙滩前景 */}
       <div style={{
         position: 'absolute',
         bottom: 0,
         left: 0,
         right: 0,
         height: '25%',
-        backgroundImage: 'url(https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=1920&q=80)',
+        backgroundImage: `url(${sandForeground})`,
         backgroundSize: 'cover',
         backgroundPosition: 'bottom',
       }} />
@@ -78,8 +113,8 @@ export default function IslandBackground({ phase = 'follicular' }) {
         right: 0,
         height: '15%',
         background: phase === 'period'
-          ? 'linear-gradient(180deg, rgba(100,116,139,0.6) 0%, rgba(71,85,105,0.8) 100%)'
-          : 'linear-gradient(180deg, rgba(74,144,164,0.6) 0%, rgba(46,139,139,0.8) 100%)',
+          ? 'linear-gradient(180deg, rgba(100,116,139,0.5) 0%, rgba(71,85,105,0.7) 100%)'
+          : 'linear-gradient(180deg, rgba(74,144,164,0.5) 0%, rgba(46,139,139,0.7) 100%)',
       }} />
 
       {/* 海浪装饰 */}

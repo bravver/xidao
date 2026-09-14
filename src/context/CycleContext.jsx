@@ -32,7 +32,7 @@ export function CycleProvider({ children }) {
     lastPeriodDate.setHours(0, 0, 0, 0)
 
     const daysSinceLastPeriod = Math.floor((today - lastPeriodDate) / (1000 * 60 * 60 * 24))
-    const cycleDay = (daysSinceLastPeriod % CYCLE_LENGTH) + 1
+    const cycleDay = ((daysSinceLastPeriod % CYCLE_LENGTH) + CYCLE_LENGTH) % CYCLE_LENGTH + 1
 
     let phase, phaseName
     if (cycleDay <= PERIOD_LENGTH) {
@@ -53,7 +53,7 @@ export function CycleProvider({ children }) {
       ...cycleData,
       cycleDay,
       phase: { name: phase, label: phaseName },
-      daysUntilPeriod: CYCLE_LENGTH - daysSinceLastPeriod % CYCLE_LENGTH,
+      daysUntilPeriod: CYCLE_LENGTH - ((daysSinceLastPeriod % CYCLE_LENGTH) + CYCLE_LENGTH) % CYCLE_LENGTH,
     }
   }, [cycleData])
 

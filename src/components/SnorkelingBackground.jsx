@@ -1,17 +1,27 @@
 import { useMemo } from 'react'
+import shallowSea from '../assets/素材1，3，5/浮潜/海底世界（浅）.png'
+import deepSea from '../assets/素材1，3，5/浮潜/海底世界(深）.png'
+import glowingCreature2 from '../assets/素材1，3，5/浮潜/海底发光生物2.png'
 
-export default function SnorkelingBackground({ phase = 'follicular' }) {
-  // 各周期阶段的水下背景
-  const backgrounds = {
-    period: 'https://images.unsplash.com/photo-1559825481-12a05cc00344?w=1920&q=80', // 深沉海底
-    follicular: 'https://images.unsplash.com/photo-1559825481-12a05cc00344?w=1920&q=80', // 清晰海底
-    ovulation: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1920&q=80', // 明亮海底
-    luteal: 'https://images.unsplash.com/photo-1559825481-12a05cc00344?w=1920&q=80', // 温暖海底
-  }
+// 透明背景素材
+import transparentCreature1 from '../assets/snorkeling/1.png'
+import transparentCreature2 from '../assets/snorkeling/2.png'
+import starsImg from '../assets/snorkeling/stars.png'
+import bottleImg from '../assets/snorkeling/瓶子.png'
+import starBottleImg from '../assets/snorkeling/装星星的瓶子.png'
 
-  const bgUrl = backgrounds[phase] || backgrounds.follicular
+// 不同深度海
+import depth1 from '../assets/snorkeling/depths/1.png'
+import depth2 from '../assets/snorkeling/depths/2.png'
+import depth3 from '../assets/snorkeling/depths/3.png'
 
-  // 焦散光斑
+export default function SnorkelingBackground({ phase = 'follicular', depth = 0 }) {
+  const depthBackgrounds = [depth1, depth2, depth3]
+  const depthIndex = depth < 30 ? 0 : depth < 60 ? 1 : 2
+  const depthBgUrl = depthBackgrounds[depthIndex]
+
+  const bgUrl = phase === 'period' || phase === 'luteal' ? deepSea : shallowSea
+
   const caustics = useMemo(() => [
     { left: '10%', top: '5%', size: 120, delay: 0 },
     { left: '40%', top: '3%', size: 100, delay: 1 },
@@ -20,9 +30,20 @@ export default function SnorkelingBackground({ phase = 'follicular' }) {
     { left: '60%', top: '12%', size: 70, delay: 1.5 },
   ], [])
 
+  // 随机散布的星星
+  const scatteredStars = useMemo(() =>
+    Array.from({ length: 12 }, () => ({
+      left: Math.random() * 90 + '%',
+      top: Math.random() * 80 + '%',
+      size: 15 + Math.random() * 25,
+      delay: Math.random() * 3,
+      duration: 1.5 + Math.random() * 2.5,
+    })), []
+  )
+
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: -1, overflow: 'hidden' }}>
-      {/* 深海背景 */}
+      {/* 海底背景 */}
       <div style={{
         position: 'absolute',
         inset: 0,
@@ -32,7 +53,18 @@ export default function SnorkelingBackground({ phase = 'follicular' }) {
         filter: phase === 'period' ? 'brightness(0.6) saturate(0.7) hue-rotate(-20deg)' : phase === 'ovulation' ? 'brightness(1) saturate(1.2) hue-rotate(-5deg)' : 'brightness(0.8) saturate(1.1) hue-rotate(-10deg)',
       }} />
 
-      {/* 深海渐变 - 经期更暗 */}
+      {/* 深度层级背景 — 随着下潜变化 */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: `url(${depthBgUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        opacity: Math.min(depth / 100, 0.7),
+        transition: 'opacity 0.6s ease',
+      }} />
+
+      {/* 深海渐变 */}
       <div style={{
         position: 'absolute',
         inset: 0,
@@ -62,15 +94,44 @@ export default function SnorkelingBackground({ phase = 'follicular' }) {
         />
       ))}
 
-      {/* 珊瑚礁 */}
-      <svg viewBox="0 0 1440 200" style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '25%' }} preserveAspectRatio="none">
-        {/* 珊瑚群 */}
-        <path d="M0 200 L0 150 Q50 100 80 130 Q100 80 130 120 Q160 60 200 110 Q240 80 280 130 Q320 90 360 140 L360 200 Z" fill="rgba(255,100,100,0.4)" />
-        <path d="M400 200 L400 160 Q450 120 480 150 Q520 90 560 140 Q600 100 640 150 Q680 110 720 160 L720 200 Z" fill="rgba(255,150,100,0.35)" />
-        <path d="M750 200 L750 140 Q800 80 850 130 Q900 70 950 120 Q1000 90 1050 140 Q1100 100 1150 150 Q1200 110 1250 160 Q1300 120 1350 150 L1350 200 Z" fill="rgba(255,200,150,0.3)" />
-        <path d="M100 200 L100 170 Q150 130 180 160 Q220 110 260 150 L260 200 Z" fill="rgba(200,100,150,0.35)" />
-        <path d="M600 200 L600 180 Q650 140 700 170 Q750 130 800 180 L800 200 Z" fill="rgba(150,100,200,0.3)" />
-      </svg>
+      {/* 散布的透明星星 */}
+      {scatteredStars.map((s, i) => (
+        <img
+          key={`star-${i}`}
+          src={starsImg}
+          alt=""
+          style={{
+            position: 'absolute',
+            left: s.left,
+            top: s.top,
+            width: s.size,
+            opacity: 0.4 + (depth / 100) * 0.5,
+            animation: `starTwinkle ${s.duration}s ease-in-out infinite`,
+            animationDelay: `${s.delay}s`,
+            transition: 'opacity 0.6s ease',
+          }}
+        />
+      ))}
+
+      {/* 海底生物 — 透明背景 */}
+      <img src={transparentCreature1} alt="" style={{ position: 'absolute', bottom: '5%', left: '10%', width: '80px', opacity: 0.8, animation: 'floatSlow 4s ease-in-out infinite' }} />
+      <img src={transparentCreature2} alt="" style={{ position: 'absolute', bottom: '8%', right: '15%', width: '70px', opacity: 0.85, animation: 'floatSlow 3s ease-in-out infinite 0.5s' }} />
+      <img src={glowingCreature2} alt="" style={{ position: 'absolute', bottom: '15%', left: '30%', width: '50px', opacity: 0.6, animation: 'floatSlow 5s ease-in-out infinite 1s' }} />
+
+      {/* 透明瓶子装饰 — 随深度渐显 */}
+      <img src={bottleImg} alt="" style={{ position: 'absolute', bottom: '10%', right: '8%', width: '55px', opacity: Math.min(depth / 50, 0.7), transition: 'opacity 0.6s ease', animation: 'floatSlow 4s ease-in-out infinite 0.8s' }} />
+      {depth > 35 && (
+        <img src={bottleImg} alt="" style={{ position: 'absolute', bottom: '18%', left: '22%', width: '50px', opacity: Math.min((depth - 35) / 35, 0.6), transition: 'opacity 0.6s ease', animation: 'floatSlow 4.5s ease-in-out infinite 1.6s' }} />
+      )}
+      {depth > 40 && (
+        <img src={starBottleImg} alt="" style={{ position: 'absolute', bottom: '25%', left: '12%', width: '55px', opacity: Math.min((depth - 40) / 30, 0.7), transition: 'opacity 0.6s ease', animation: 'floatSlow 5s ease-in-out infinite 1.2s' }} />
+      )}
+      {depth > 55 && (
+        <img src={starBottleImg} alt="" style={{ position: 'absolute', bottom: '30%', right: '18%', width: '50px', opacity: Math.min((depth - 55) / 25, 0.7), transition: 'opacity 0.6s ease', animation: 'floatSlow 6s ease-in-out infinite 2s', filter: 'drop-shadow(0 0 12px rgba(100,200,255,0.5))' }} />
+      )}
+      {depth > 50 && (
+        <img src={starsImg} alt="" style={{ position: 'absolute', bottom: '35%', right: '28%', width: '45px', opacity: Math.min((depth - 50) / 30, 0.65), transition: 'opacity 0.6s ease', animation: 'starTwinkle 2.5s ease-in-out infinite 0.3s' }} />
+      )}
 
       {/* 水面波光 */}
       <div style={{
@@ -80,6 +141,15 @@ export default function SnorkelingBackground({ phase = 'follicular' }) {
         right: 0,
         height: '15%',
         background: 'linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%)',
+      }} />
+
+      {/* 深度暗角 */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: `radial-gradient(ellipse at center, transparent 40%, rgba(0,0,20,${0.3 + (depth / 100) * 0.5}) 100%)`,
+        transition: 'background 0.6s ease',
+        pointerEvents: 'none',
       }} />
     </div>
   )

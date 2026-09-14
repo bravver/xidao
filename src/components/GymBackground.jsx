@@ -1,10 +1,15 @@
+import cloudyBeach from '../assets/2.4.素材收集/2.1背景图/阴天海滩背景.avif'
+import sunnyBeach from '../assets/2.4.素材收集/2.1背景图/阳光海滩背景.jpg'
+import freshOcean from '../assets/2.4.素材收集/2.1背景图/清爽海洋背景.avif'
+import sunsetBeach from '../assets/2.4.素材收集/2.1背景图/日落海滩背景.jpg'
+import sandForeground from '../assets/2.4.素材收集/2.1背景图/前景沙滩.avif'
+
 export default function GymBackground({ phase = 'follicular' }) {
-  // 各周期阶段的背景图片
   const backgrounds = {
-    period: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=1920&q=80', // 柔和海滩
-    follicular: 'https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=1920&q=80', // 明亮日落
-    ovulation: 'https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=1920&q=80', // 阳光沙滩
-    luteal: 'https://images.unsplash.com/photo-1473186505569-9c61870c11f9?w=1920&q=80', // 黄昏日落
+    period: cloudyBeach,
+    follicular: sunsetBeach,
+    ovulation: sunnyBeach,
+    luteal: sunsetBeach,
   }
 
   const bgUrl = backgrounds[phase] || backgrounds.follicular
@@ -75,14 +80,14 @@ export default function GymBackground({ phase = 'follicular' }) {
         animation: 'pulseGlow 4s ease-in-out infinite',
       }} />
 
-      {/* 沙滩背景 */}
+      {/* 沙滩前景 */}
       <div style={{
         position: 'absolute',
         bottom: 0,
         left: 0,
         right: 0,
         height: '25%',
-        backgroundImage: 'url(https://images.unsplash.com/photo-1519046904884-53103b34b206?w=1920&q=80)',
+        backgroundImage: `url(${sandForeground})`,
         backgroundSize: 'cover',
         backgroundPosition: 'bottom',
         filter: 'brightness(0.9)',

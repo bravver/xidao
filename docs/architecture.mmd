@@ -1,0 +1,129 @@
+graph TB
+    %% ═══════════════════════════════════════════
+    %% 样式定义
+    %% ═══════════════════════════════════════════
+    classDef entry fill:#4338ca,color:#fff,stroke:#312e81,stroke-width:2px
+    classDef state fill:#059669,color:#fff,stroke:#064e3b,stroke-width:2px
+    classDef island fill:#d97706,color:#fff,stroke:#92400e,stroke-width:2px
+    classDef module fill:#0284c7,color:#fff,stroke:#0c4a6e,stroke-width:2px
+    classDef infra fill:#7c3aed,color:#fff,stroke:#4c1d95,stroke-width:2px
+    classDef ai fill:#dc2626,color:#fff,stroke:#991b1b,stroke-width:2px
+    classDef storage fill:#0891b2,color:#fff,stroke:#164e63,stroke-width:2px
+    classDef bg fill:#1e293b,color:#e2e8f0,stroke:#475569,stroke-width:1px
+
+    %% ═══════════════════════════════════════════
+    %% 第一层：入口 & 状态管理
+    %% ═══════════════════════════════════════════
+    subgraph L1["🟦  入口与启动层"]
+        direction LR
+        INDEX["📄 index.html<br/>Vite 入口 · 加载界面"]
+        MAIN["⚛️ main.jsx<br/><b>全局错误边界</b><br/>window.onerror 捕获<br/>ReactDOM.createRoot"]
+        ERROR["🛡️ ErrorBoundary<br/>React 组件级容错<br/>降级 UI 渲染"]
+        ENTRY["🌅 Entry 页面<br/><b>经期日期注册</b><br/>lastPeriod + duration<br/>数据校验与提交"]
+    end
+
+    %% ═══════════════════════════════════════════
+    %% 第二层：状态引擎
+    %% ═══════════════════════════════════════════
+    subgraph L2["🟩  状态引擎层"]
+        direction LR
+        CC["🎯 CycleContext<br/><b>全局周期状态源</b><br/>Provider 注入 · useCycle 消费<br/>localStorage 双向同步"]
+        CALC["🧮 cycleCalculator<br/><b>28天周期算法</b><br/>phase 相位判定<br/>cycleDay 天数推算<br/>getPhaseForDate 任意日期查询"]
+        MEM["💾 localStorage 持久层<br/><b>9 个独立键空间</b><br/>xidao_cycle / _emotions<br/>_calendar_entries / _rewards<br/>_custom_recipes / _bottles"]
+    end
+
+    %% ═══════════════════════════════════════════
+    %% 第三层：主路由
+    %% ═══════════════════════════════════════════
+    subgraph L3["🟨  主路由与导航"]
+        ISLAND["🏝️ Island 主页<br/><b>周期仪表盘</b><br/>四期视觉 · 今日引言<br/>模块卡片导航 · 分享卡片生成<br/>环境音控制 · Canvas 截图"]
+    end
+
+    %% ═══════════════════════════════════════════
+    %% 第四层：六大核心模块
+    %% ═══════════════════════════════════════════
+    subgraph L4["🟦  六大核心功能模块"]
+
+        subgraph L4A[" "]
+            direction TB
+            SHIP["⛵ <b>海船 · 航海日志</b><br/>━━━━━━━━━━<br/>📅 月历 + 日期导航<br/>📝 日志/计划双轨记录<br/>🤖 关键词智能分类<br/>✉️ 信封 3D 展开动画<br/>📎 图片附件支持<br/>🎨 四期信纸配色"]
+        end
+
+        subgraph L4B[" "]
+            direction TB
+            GYM["💪 <b>海边健身房</b><br/>━━━━━━━━━━<br/>⏱️ 计时倒计时 + 进度环<br/>🔢 触控计数 · 滑动检测<br/>🖼️ 分解动作帧动画<br/>🧘 冥想呼吸 LFO 视效<br/>➕ 自定义运动计划<br/>🏆 完成徽章收集"]
+        end
+
+        subgraph L4C[" "]
+            direction TB
+            KITCHEN["🍳 <b>海边厨房</b><br/>━━━━━━━━━━<br/>🖐️ 拖拽投料 · 食材落区<br/>🔄 长按研磨 · 阶段变化<br/>🔪 快速切剁 · 手势检测<br/>🔥 加热翻面 · 滑动交互<br/>🫖 冲泡调制 · 点击推进<br/>✚ 自定义食谱系统"]
+        end
+
+        subgraph L4D[" "]
+            direction TB
+            BEACH["🐚 <b>情绪海滩</b><br/>━━━━━━━━━━<br/>🏷️ 8种情绪标签选择<br/>📦 分时期封存物图标<br/>📋 可滚动历史记录<br/>💬 AI 情绪陪伴入口<br/>✏️ 编辑/删除/回溯"]
+        end
+
+        subgraph L4E[" "]
+            direction TB
+            SNORKEL["🤿 <b>浮潜 · 漂流瓶</b><br/>━━━━━━━━━━<br/>🌊 三层深度递进探索<br/>📮 匿名投瓶 · 消息漂流<br/>🫧 随机捞瓶 · 社区互动<br/>⭐ 撒盐/撒星星机制<br/>🎐 瓶子浮动动画"]
+        end
+
+        subgraph L4F[" "]
+            direction TB
+            LIGHTHOUSE["🗼 <b>智慧灯塔 · AI</b><br/>━━━━━━━━━━<br/>💬 情绪陪伴对话<br/>🌟 今日智能推荐<br/>🔍 日志模式分析<br/>🍃 运动饮食建议<br/>🎭 Persona: 汐汐<br/>🛡️ 安全边界过滤"]
+        end
+    end
+
+    %% ═══════════════════════════════════════════
+    %% 第五层：基础设施
+    %% ═══════════════════════════════════════════
+    subgraph L5["🟪  基础设施层"]
+        direction LR
+        AUDIO["🎵 <b>useAmbientSound</b><br/>━━━━━━━━<br/>Web Audio API 合成<br/>四期四种自然音景<br/>雨声·晨风·海浪·柔风<br/>零音频文件依赖<br/>toggle / setVolume 控制"]
+        BG["🎨 <b>Background 组件集</b><br/>━━━━━━━━<br/>7 个全屏动态背景<br/>Island · Beach · Ship<br/>Gym · Kitchen<br/>Snorkeling · Weather<br/>CSS gradient + 图层叠加"]
+        AI["🤖 <b>aiChat 工具</b><br/>━━━━━━━━<br/>DeepSeek Chat API<br/>Persona 系统注入<br/>上下文自动采集<br/>四模式 prompt 构建"]
+        SHARE["📸 <b>ShareCard</b><br/>━━━━━━━━<br/>Canvas 离屏渲染<br/>成就数据合成<br/>今日/本周/全期汇总<br/>导出图片分享"]
+    end
+
+    %% ═══════════════════════════════════════════
+    %% 第六层：构建与分发
+    %% ═══════════════════════════════════════════
+    subgraph L6["⬛  构建与分发层"]
+        direction LR
+        VITE["⚡ <b>Vite 4 构建</b><br/>━━━━━━<br/>React 18 + JSX<br/>Tailwind CSS · PostCSS<br/>167 模块打包<br/>Gzip: 110KB JS"]
+        IIFE["📦 <b>IIFE 离线输出</b><br/>━━━━━━<br/>base: './' 相对路径<br/>format: 'iife' 自执行<br/>inlineDynamicImports<br/>纯净 dist/ 目录"]
+        DIST["📱 <b>零安装分发</b><br/>━━━━━━<br/>双击 index.html 即用<br/>file:// 协议兼容<br/>37MB ZIP 压缩包<br/>U盘/网盘/局域网"]
+    end
+
+    %% ═══════════════════════════════════════════
+    %% 连接关系
+    %% ═══════════════════════════════════════════
+    INDEX --> MAIN
+    MAIN --> ERROR
+    MAIN --> ENTRY
+    ENTRY --> CC
+    CC --> CALC
+    CC --> MEM
+    CC --> ISLAND
+    ISLAND --> SHIP & GYM & KITCHEN & BEACH & SNORKEL & LIGHTHOUSE
+    LIGHTHOUSE --> AI
+    ISLAND --> AUDIO
+    ISLAND --> BG
+    ISLAND --> SHARE
+    SHIP & GYM & KITCHEN & BEACH --> MEM
+    SHIP & GYM & KITCHEN & BEACH --> BG
+    SHIP & GYM & KITCHEN & BEACH --> AUDIO
+    SHIP & GYM & KITCHEN & BEACH --> SHARE
+    SHIP & GYM & KITCHEN & BEACH --> VITE
+    VITE --> IIFE
+    IIFE --> DIST
+
+    %% 样式应用
+    class INDEX,MAIN,ERROR,ENTRY entry
+    class CC,CALC,MEM state
+    class ISLAND island
+    class SHIP,GYM,KITCHEN,BEACH,SNORKEL,LIGHTHOUSE module
+    class AUDIO,BG,SHARE infra
+    class AI ai
+    class VITE,IIFE,DIST storage

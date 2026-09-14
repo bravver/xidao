@@ -1,13 +1,46 @@
-export default function KitchenBackground({ phase = 'follicular' }) {
-  // 各周期阶段的背景图片
-  const backgrounds = {
-    period: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1920&q=80', // 温暖咖啡厅
-    follicular: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920&q=80', // 明亮厨房
-    ovulation: 'https://images.unsplash.com/photo-1466637574441-844b24afd14a?w=1920&q=80', // 清爽厨房
-    luteal: 'https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?w=1920&q=80', // 温馨厨房
-  }
+import { useState } from 'react'
 
-  const bgUrl = backgrounds[phase] || backgrounds.follicular
+// 经期 - 炭火泥炉、暖橘吊灯、窗外细雨 (3张)
+import kitchenPeriod1 from '../assets/2.4.素材收集/4.1背景图/炭火泥炉、暖橘吊灯、窗外细雨.avif'
+import kitchenPeriod2 from '../assets/2.4.素材收集/4.1背景图/炭火泥炉、暖橘吊灯、窗外细雨2.avif'
+import kitchenPeriod3 from '../assets/2.4.素材收集/4.1背景图/炭火泥炉、暖橘吊灯、窗外细雨3.avif'
+
+// 卵泡期 - 蓝调晨光、百叶窗条纹影、洋甘菊 (2张)
+import kitchenFollicular1 from '../assets/2.4.素材收集/4.1背景图/蓝调晨光、百叶窗条纹影、洋甘菊.avif'
+import kitchenFollicular2 from '../assets/2.4.素材收集/4.1背景图/蓝调晨光、百叶窗条纹影、洋甘菊2.avif'
+
+// 排卵日 - 过曝阳光、不锈钢台面、窗外青蓝海 (3张)
+import kitchenOvulation1 from '../assets/2.4.素材收集/4.1背景图/过曝阳光、不锈钢台面、窗外青蓝海.avif'
+import kitchenOvulation2 from '../assets/2.4.素材收集/4.1背景图/过曝阳光、不锈钢台面、窗外青蓝海2.avif'
+import kitchenOvulation3 from '../assets/2.4.素材收集/4.1背景图/过曝阳光、不锈钢台面、窗外青蓝海3.avif'
+
+// 黄体期 - 焦糖夕阳、粗麻布台面、薄雾窗外 (4张)
+import kitchenLuteal1 from '../assets/2.4.素材收集/4.1背景图/焦糖夕阳、粗麻布台面、薄雾窗外.avif'
+import kitchenLuteal2 from '../assets/2.4.素材收集/4.1背景图/焦糖夕阳、粗麻布台面、薄雾窗外2.avif'
+import kitchenLuteal3 from '../assets/2.4.素材收集/4.1背景图/焦糖夕阳、粗麻布台面、薄雾窗外3.avif'
+import kitchenLuteal4 from '../assets/2.4.素材收集/4.1背景图/焦糖夕阳、粗麻布台面、薄雾窗外4.avif'
+
+const phaseVariants = {
+  period: [kitchenPeriod1, kitchenPeriod2, kitchenPeriod3],
+  follicular: [kitchenFollicular1, kitchenFollicular2],
+  ovulation: [kitchenOvulation1, kitchenOvulation2, kitchenOvulation3],
+  luteal: [kitchenLuteal1, kitchenLuteal2, kitchenLuteal3, kitchenLuteal4],
+}
+
+const phaseNames = {
+  period: '炭火泥炉 · 暖橘吊灯 · 窗外细雨',
+  follicular: '蓝调晨光 · 百叶窗条纹影 · 洋甘菊',
+  ovulation: '过曝阳光 · 不锈钢台面 · 窗外青蓝海',
+  luteal: '焦糖夕阳 · 粗麻布台面 · 薄雾窗外',
+}
+
+export default function KitchenBackground({ phase = 'follicular' }) {
+  const [variantIndex] = useState(() =>
+    Math.floor(Math.random() * (phaseVariants[phase]?.length || 1))
+  )
+
+  const variants = phaseVariants[phase] || phaseVariants.follicular
+  const bgUrl = variants[variantIndex % variants.length]
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: -1, overflow: 'hidden' }}>
@@ -82,6 +115,18 @@ export default function KitchenBackground({ phase = 'follicular' }) {
         height: '15%',
         background: 'linear-gradient(180deg, rgba(222,184,135,0.8) 0%, rgba(210,105,30,0.9) 100%)',
       }} />
+
+      {/* 场景标签 */}
+      <div style={{
+        position: 'absolute',
+        bottom: '0.5rem',
+        right: '0.75rem',
+        fontSize: '0.6rem',
+        color: 'rgba(255,255,255,0.4)',
+        fontStyle: 'italic',
+      }}>
+        {phaseNames[phase]}
+      </div>
     </div>
   )
 }

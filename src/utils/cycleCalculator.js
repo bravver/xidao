@@ -84,6 +84,35 @@ export function getPhaseConfig(phase) {
   return configs[phase] || configs.period
 }
 
+export function getPhaseForDate(lastPeriodStr, targetDateStr, duration = 5, cycleLength = 28) {
+  const lastPeriod = new Date(lastPeriodStr)
+  const target = new Date(targetDateStr)
+  lastPeriod.setHours(0, 0, 0, 0)
+  target.setHours(0, 0, 0, 0)
+
+  const daysSince = Math.floor((target - lastPeriod) / (1000 * 60 * 60 * 24))
+
+  let cycleDay
+  if (daysSince < 0) {
+    const absDays = Math.abs(daysSince)
+    cycleDay = cycleLength - (absDays % cycleLength)
+    if (cycleDay === cycleLength) cycleDay = 0
+  } else {
+    cycleDay = daysSince % cycleLength
+  }
+
+  if (cycleDay < duration) {
+    return { name: 'period', label: '月经期', weather: 'rain', icon: '🌧️' }
+  }
+  if (cycleDay < 12) {
+    return { name: 'follicular', label: '卵泡期', weather: 'dawn', icon: '🌅' }
+  }
+  if (cycleDay < 14) {
+    return { name: 'ovulation', label: '排卵日', weather: 'sunny', icon: '☀️' }
+  }
+  return { name: 'luteal', label: '黄体期', weather: 'sunset', icon: '🌅' }
+}
+
 export function getCycleDay(lastPeriodDate) {
   const last = new Date(lastPeriodDate)
   const today = new Date()

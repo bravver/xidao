@@ -1,10 +1,15 @@
+import cloudyBeach from '../assets/2.4.素材收集/2.1背景图/阴天海滩背景.avif'
+import sunnyBeach from '../assets/2.4.素材收集/2.1背景图/阳光海滩背景.jpg'
+import freshOcean from '../assets/2.4.素材收集/2.1背景图/清爽海洋背景.avif'
+import sunsetBeach from '../assets/2.4.素材收集/2.1背景图/日落海滩背景.jpg'
+import sandForeground from '../assets/2.4.素材收集/2.1背景图/前景沙滩.avif'
+
 export default function BeachBackground({ phase = 'follicular' }) {
-  // 各周期阶段的背景图片
   const backgrounds = {
-    period: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=1920&q=80', // 阴天海滩
-    follicular: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80', // 阳光海滩
-    ovulation: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1920&q=80', // 清爽海洋
-    luteal: 'https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=1920&q=80', // 日落海滩
+    period: cloudyBeach,
+    follicular: sunnyBeach,
+    ovulation: freshOcean,
+    luteal: sunsetBeach,
   }
 
   const bgUrl = backgrounds[phase] || backgrounds.follicular
@@ -92,14 +97,14 @@ export default function BeachBackground({ phase = 'follicular' }) {
         <path d="M0 30C360 50 720 0 1080 30C1260 45 1380 40 1440 30V60H0V30Z" fill="rgba(255,255,255,0.12)" />
       </svg>
 
-      {/* 沙滩 */}
+      {/* 沙滩前景 */}
       <div style={{
         position: 'absolute',
         bottom: 0,
         left: 0,
         right: 0,
         height: '24%',
-        backgroundImage: 'url(https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=1920&q=80)',
+        backgroundImage: `url(${sandForeground})`,
         backgroundSize: 'cover',
         backgroundPosition: 'bottom',
       }} />

@@ -1,4 +1,32 @@
-node_modules
-dist
-.DS_Store
+# Dependencies and build output
+node_modules/
+dist/
+.vite/
+
+# Local environment files
+.env
+.env.*
+!.env.example
 *.local
+
+# Logs and editor / OS files
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Local exports and one-off working files
+*.zip
+/report.png
+/tasks.jpg
+/tasks.png
+/trigger
+/update-*.cjs
+/scripts/build-standalone.js
+/scripts/verify.js
+
+# Generated architecture exports (the Markdown source renders on GitHub)
+/docs/architecture.html
+/docs/architecture.jpeg
+/docs/architecture.png

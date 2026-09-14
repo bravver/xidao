@@ -1,17 +1,32 @@
 {
   "name": "xidao",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "一个以岛屿叙事承载生理周期记录与日常自我关怀的前端原型。",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bravver/xidao.git"
+  },
+  "keywords": [
+    "react",
+    "vite",
+    "wellbeing",
+    "menstrual-cycle"
+  ],
+  "engines": {
+    "node": ">=18"
   },
   "dependencies": {
+    "framer-motion": "^10.16.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "framer-motion": "^10.16.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",

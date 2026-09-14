@@ -1,10 +1,14 @@
+import cloudyBeach from '../assets/2.4.素材收集/2.1背景图/阴天海滩背景.avif'
+import sunnyBeach from '../assets/2.4.素材收集/2.1背景图/阳光海滩背景.jpg'
+import freshOcean from '../assets/2.4.素材收集/2.1背景图/清爽海洋背景.avif'
+import sunsetBeach from '../assets/2.4.素材收集/2.1背景图/日落海滩背景.jpg'
+
 export default function ShipBackground({ phase = 'follicular' }) {
-  // 各周期阶段的背景图片
   const backgrounds = {
-    period: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=1920&q=80', // 阴天海洋
-    follicular: 'https://images.unsplash.com/photo-1500514966906-fe245eea9344?w=1920&q=80', // 晴朗海洋帆船
-    ovulation: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1920&q=80', // 阳光海洋
-    luteal: 'https://images.unsplash.com/photo-1473186505569-9c61870c11f9?w=1920&q=80', // 黄昏海洋
+    period: cloudyBeach,
+    follicular: sunnyBeach,
+    ovulation: freshOcean,
+    luteal: sunsetBeach,
   }
 
   const bgUrl = backgrounds[phase] || backgrounds.follicular
